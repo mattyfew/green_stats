@@ -4,11 +4,12 @@
   "description": "My version of a boilerplate react setup",
   "main": "server.js",
   "scripts": {
-      "start": "webpack --config ./webpack.config.js --mode development --watch"
+    "start": "webpack --config ./webpack.config.js --mode development --watch"
   },
   "author": "Matt Fewer",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "express": "^4.16.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
