@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import AddFood from './AddFood'
 
 class App extends Component {
     constructor() {
@@ -10,19 +11,19 @@ class App extends Component {
         }
     }
 
-    componentDidMount() {
-        axios.get('/food').then(resp => {
-            const url = `https://api.nal.usda.gov/ndb/V2/reports/?ndbno=${ resp.data.join('&ndbno=') }&api_key=MWFXXil4cNHuolFhHn2Rq9QX0ivKJkwmrEmEwihH`
-
-            axios.get(url)
-            .then(resp => {
-                this.setState({
-                    food: resp.data.foods.map(item => item.food)
-                })
-            })
-        })
-
-    }
+    // componentDidMount() {
+    //     axios.get('/food').then(resp => {
+    //         const url = `https://api.edamam.com/api/nutrition-data?app_id=8143e372&app_key=2888a156d293bb3d699077400ffbb538&ingr=1%20cucumber`
+    //
+    //         axios.get(url)
+    //         .then(resp => {
+    //             console.log(resp.data);
+    //             this.setState({
+    //                 food: resp.data.foods.map(item => item.food)
+    //             })
+    //         })
+    //     })
+    // }
 
     renderFood(food) {
         return food.map(item => (
@@ -33,15 +34,15 @@ class App extends Component {
     }
 
     render() {
-        if (!this.state.food.length) {
-            return (<h1>Loading...</h1>)
-        }
+        // if (!this.state.food.length) {
+        //     return (<h1>Loading...</h1>)
+        // }
 
         return (
             <div>
                 <h1>Green Stats</h1>
 
-                { this.renderFood(this.state.food) }
+                <AddFood />
             </div>
         )
     }
