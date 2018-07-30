@@ -34,6 +34,7 @@ class AddFood extends Component {
 
                 <form onSubmit={ this.submitNewFood }>
                     <input onChange={ this.handleChange } type="text" name="name" placeholder="food name"/>
+                    <input onChange={ this.handleChange } type="text" name="imgUrl" placeholder="enter an image URL"/>
                     <button>Submit</button>
                 </form>
             </div>
