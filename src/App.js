@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AddFood from './AddFood'
 
 class App extends Component {
@@ -11,38 +12,47 @@ class App extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     axios.get('/food').then(resp => {
-    //         const url = `https://api.edamam.com/api/nutrition-data?app_id=8143e372&app_key=2888a156d293bb3d699077400ffbb538&ingr=1%20cucumber`
-    //
-    //         axios.get(url)
-    //         .then(resp => {
-    //             console.log(resp.data);
-    //             this.setState({
-    //                 food: resp.data.foods.map(item => item.food)
-    //             })
-    //         })
-    //     })
-    // }
+    componentDidMount() {
+        axios.get('/food')
+            .then(resp => {
+                this.setState({
+                    food: resp.data
+                })
+            })
+    }
 
     renderFood(food) {
-        return food.map(item => (
-            <div className="single-food-container" key={ item.id }>
+        return this.state.food.map(item => (
+            <div className="single-food-container" key={ item._id }>
                 <h2>{ item.name }</h2>
+                <img src={ item.imgUrl } alt={ item.name } />
             </div>
         ))
     }
 
     render() {
-        // if (!this.state.food.length) {
-        //     return (<h1>Loading...</h1>)
-        // }
+        if (!this.state.food.length) {
+            return (<h1>Loading...</h1>)
+        }
 
         return (
             <div>
                 <h1>Green Stats</h1>
 
-                <AddFood />
+                <BrowserRouter>
+
+                    <div>
+                        <Link to="/">Main</Link>
+                        <Link to="/add">Add</Link>
+                        
+                        <Route exact path="/" render={ () => (
+                                <div id="main-food-container">
+                                    { this.renderFood() }
+                                </div>
+                            ) } />
+                        <Route exact path="/add" component={ AddFood } />
+                    </div>
+                </BrowserRouter>
             </div>
         )
     }

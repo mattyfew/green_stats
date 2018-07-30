@@ -15,21 +15,12 @@ mongoose.connect('mongodb://localhost:27017/green_stats')
     .catch(e => console.log("something went wrong with connection", e))
 
 app.get('/food', (req, res) => {
-    // const food = [
-    //     { id: 1, name: 'cucumber' },
-    //     { id: 2, name: 'tomato' },
-    //     { id: 3, name: 'celery' }
-    // ]
-    const food = [
-        '11090', '11205', '09307'
-    ]
-
-    res.json(food)
+    Food.find()
+        .then(foods => res.json(foods))
+        .catch(e => console.log("something went wrong with GET /food", e))
 })
 
 app.post('/new-food', (req, res) => {
-    console.log("inside /new-food", req.body);
-
     const f = new Food({
         name: req.body.name,
         imgUrl: req.body.imgUrl
@@ -37,9 +28,10 @@ app.post('/new-food', (req, res) => {
 
     f.save()
      .then(newFood => {
-         console.log('is this our new food?', newFood)
+         console.log('New food added', newFood)
          res.json(newFood)
      })
+     .catch(e => console.log("something went wrong with POST /new-food", e))
 })
 
 app.get('*', (req, res) => {

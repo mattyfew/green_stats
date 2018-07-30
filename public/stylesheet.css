@@ -1,3 +1,15 @@
 body {
     background-color: #C4E538;
 }
+
+#main-food-container {
+    display: flex
+}
+.single-food-container {
+    background-color: #12CBC4;
+    padding: 16px;
+    margin: 8px;
+}
+.single-food-container img {
+    max-width: 200px;
+}

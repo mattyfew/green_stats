@@ -20,7 +20,8 @@ class AddFood extends Component {
         })
     }
 
-    submitNewFood() {
+    submitNewFood(e) {
+        e.preventDefault()
         axios.post('/new-food', this.state)
             .then(resp => {
                 console.log(resp.data);
