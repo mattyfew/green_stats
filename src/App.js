@@ -2,32 +2,47 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import AddFood from './AddFood'
+import MainScreen from './MainScreen'
+import EditFood from './EditFood'
 
 class App extends Component {
     constructor() {
         super()
 
         this.state = {
-            food: []
+            food: [],
+            formName: '',
+            formImgUrl: ''
         }
+
+        this.handleChange = this.handleChange.bind(this)
+        this.submitNewFood = this.submitNewFood.bind(this)
     }
 
     componentDidMount() {
         axios.get('/food')
-            .then(resp => {
-                this.setState({
-                    food: resp.data
-                })
-            })
+            .then(resp => this.setState({ food: resp.data }))
     }
 
-    renderFood(food) {
-        return this.state.food.map(item => (
-            <div className="single-food-container" key={ item._id }>
-                <h2>{ item.name }</h2>
-                <img src={ item.imgUrl } alt={ item.name } />
-            </div>
-        ))
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    submitNewFood(e) {
+        e.preventDefault()
+
+
+        axios.post('/new-food', {
+            name: this.state.formName,
+            imgUrl: this.state.formImgUrl
+        })
+            .then(resp => {
+                this.setState({
+                    food: [ ...this.state.food ].push(resp.data)
+                }, () => location.replace('/'))
+            })
     }
 
     render() {
@@ -40,17 +55,20 @@ class App extends Component {
                 <h1>Green Stats</h1>
 
                 <BrowserRouter>
-
                     <div>
-                        <Link to="/">Main</Link>
-                        <Link to="/add">Add</Link>
-                        
-                        <Route exact path="/" render={ () => (
-                                <div id="main-food-container">
-                                    { this.renderFood() }
-                                </div>
-                            ) } />
-                        <Route exact path="/add" component={ AddFood } />
+                        <Link className="nav-link" to="/">Main</Link>
+                        <Link className="nav-link" to="/add">Add</Link>
+
+                        <Route exact path="/" render={ () => <MainScreen food={ this.state.food } /> } />
+                        <Route exact path="/add" render={ () => (
+                            <AddFood
+                                formName={ this.state.formName }
+                                formImgUrl={ this.state.formImgUrl }
+                                handleChange={ this.handleChange }
+                                submitNewFood={ this.submitNewFood }
+                            />
+                        )} />
+                        <Route exact path="/edit/:foodId" component={ EditFood } />
                     </div>
                 </BrowserRouter>
             </div>

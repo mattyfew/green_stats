@@ -13,3 +13,7 @@ body {
 .single-food-container img {
     max-width: 200px;
 }
+
+.nav-link {
+    margin-right: 8px
+}
