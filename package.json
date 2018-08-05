@@ -4,7 +4,7 @@
   "description": "My version of a boilerplate react setup",
   "main": "server.js",
   "scripts": {
-    "start": "webpack --config ./webpack.config.js --mode development --watch"
+    "dev": "webpack --config ./webpack.config.js --mode development --watch"
   },
   "author": "Matt Fewer",
   "license": "ISC",

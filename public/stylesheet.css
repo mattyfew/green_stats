@@ -1,9 +1,11 @@
 body {
     background-color: #C4E538;
+    margin: 0
 }
 
 #main-food-container {
-    display: flex
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
 }
 .single-food-container {
     background-color: #12CBC4;
@@ -16,4 +18,13 @@ body {
 
 .nav-link {
     margin-right: 8px
+}
+
+nav {
+    background-color: #9b59b6;
+    padding: 20px;
+}
+nav a {
+    color: white;
+    text-decoration: none;
 }

@@ -34,6 +34,14 @@ app.post('/new-food', (req, res) => {
      .catch(e => console.log("something went wrong with POST /new-food", e))
 })
 
+app.post('/delete-food', (req, res) => {
+    Food.remove({ _id: req.body.id })
+        .then(x => {
+            console.log("what is x", x);
+            res.json({ success: true })
+        })
+})
+
 app.get('*', (req, res) => {
     res.sendFile(`${__dirname}/public/index.html`)
 })
