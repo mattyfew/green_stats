@@ -11,7 +11,8 @@ class SingleFood extends Component {
             modalIsOpen: false,
             showAddStat: false,
             newStatName: '',
-            newStatAmount: ''
+            newStatAmount: '',
+            newStatUnit: ''
         }
         this.closeModal = this.closeModal.bind(this)
         this.addStat = this.addStat.bind(this)
@@ -72,6 +73,7 @@ class SingleFood extends Component {
                             <h3>Add Stat</h3>
                             <input onChange={ this.handleChange } type="text" name="newStatName" placeholder="name"/>
                             <input onChange={ this.handleChange } type="text" name="newStatAmount" placeholder="amount"/>
+                            <input onChange={ this.handleChange } type="text" name="newStatUnit" placeholder="unit"/>
                             <button>Submit</button>
                         </form>
                     )}

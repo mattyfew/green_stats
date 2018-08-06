@@ -3,11 +3,11 @@ const Schema = mongoose.Schema
 
 const statSchema = new Schema({
     name: { type: String },
-    unit: { type: String },
     amount: { type: Number },
+    unit: { type: String },
     referenceMongoID: {
         type: Schema.Types.ObjectId,
-        ref: 'Food' 
+        ref: 'Food'
     }
 })
 

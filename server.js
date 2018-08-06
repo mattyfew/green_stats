@@ -43,10 +43,28 @@ app.post('/delete-food', (req, res) => {
 
 app.get('/food/:id', (req, res) => {
     Food.findById(req.params.id)
-        .then(myFood => {
-            console.log("myFood", myFood)
-            res.json(myFood)
-        })
+    .then(myFood => {
+        console.log("myFood", myFood)
+        res.json(myFood)
+    })
+    .catch(e => console.log('There was an error with GET /food/:id', e))
+
+})
+
+app.post('/add-stat/:id', (req, res) => {
+    const s = new Stat({
+        name: req.body.newStatName,
+        amount: req.body.newStatAmount,
+        unit: req.body.newStatUnit,
+        referenceMongoID: req.params.id
+    })
+
+    s.save()
+    .then(newStat => {
+        console.log("A new Stat was created", newStat)
+        res.json(newStat)
+    })
+    .catch(e => console.log('There was an error with POST /add-stat', e))
 })
 
 app.get('*', (req, res) => {
