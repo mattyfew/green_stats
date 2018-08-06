@@ -36,9 +36,16 @@ app.post('/new-food', (req, res) => {
 
 app.post('/delete-food', (req, res) => {
     Food.remove({ _id: req.body.id })
-        .then(x => {
-            console.log("what is x", x);
+        .then(() => {
             res.json({ success: true })
+        })
+})
+
+app.get('/food/:id', (req, res) => {
+    Food.findById(req.params.id)
+        .then(myFood => {
+            console.log("myFood", myFood)
+            res.json(myFood)
         })
 })
 
