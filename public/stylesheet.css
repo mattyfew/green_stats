@@ -43,3 +43,12 @@ nav a {
     color: white;
     text-decoration: none;
 }
+
+.emoji {
+    font-size: 60px;
+    margin: 10px 0;
+}
+
+.emoji-link {
+    text-decoration: none;
+}

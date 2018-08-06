@@ -8,17 +8,19 @@ class SingleFood extends Component {
         super(props)
         this.state = {
             singleFood: {},
-            modalIsOpen: false
+            modalIsOpen: false,
+            showAddStat: false,
+            newStatName: '',
+            newStatAmount: ''
         }
-
         this.closeModal = this.closeModal.bind(this)
+        this.addStat = this.addStat.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     componentDidMount() {
         axios.get(`/food/${this.props.foodId}`)
             .then(resp => {
-                console.log("need to check props", resp);
-
                 this.setState({
                     singleFood: resp.data,
                     modalIsOpen: true
@@ -26,27 +28,53 @@ class SingleFood extends Component {
             })
     }
 
+    handleChange(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     closeModal() {
         this.setState({ modalIsOpen: false })
         this.props.historyPush('/')
     }
 
-    render() {
-        const { _id, name, imgUrl, nutrition,  } = this.state.singleFood
+    addStat(e) {
+        e.preventDefault()
 
-        if (!this.state.modalIsOpen) {
-            return <div>Loading</div>
-        }
+        const { newStatName, newStatAmount } = this.state
+
+        axios.post(`/add-stat/${this.props.foodId}`, { newStatName, newStatAmount })
+        .then(resp => {
+            console.log("so we are here now")
+        })
+    }
+
+    render() {
+        const { _id, name, imgUrl, nutrition  } = this.state.singleFood
+        const { showAddStat, modalIsOpen } = this.state
+
+        if (!modalIsOpen) { return (<div>Loading</div>) }
 
         return (
             <Modal
-                isOpen={this.state.modalIsOpen}
+                isOpen={modalIsOpen}
                 onRequestClose={ this.closeModal }
             >
                 <div id="single-food">
                     <p className="x" onClick={ this.closeModal }>X</p>
                     <h2>{ name }</h2>
-                    <img src={ imgUrl } />
+                    <p className="emoji">{ imgUrl }</p>
+                    <button onClick={() => this.setState({ showAddStat: !showAddStat })}>Add Stat</button>
+
+                    { showAddStat && (
+                        <form onSubmit={ this.addStat }>
+                            <h3>Add Stat</h3>
+                            <input onChange={ this.handleChange } type="text" name="newStatName" placeholder="name"/>
+                            <input onChange={ this.handleChange } type="text" name="newStatAmount" placeholder="amount"/>
+                            <button>Submit</button>
+                        </form>
+                    )}
                 </div>
             </Modal>
         )

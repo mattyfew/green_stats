@@ -61,8 +61,6 @@ class App extends Component {
         const { food, formName, formImgUrl, modalIsOpen } = this.state
         const { handleChange, submitNewFood, deleteFood } = this
 
-        // if (!food.length) { return (<h1>Loading...</h1>) }
-
         return (
             <BrowserRouter>
                 <div>
@@ -71,7 +69,12 @@ class App extends Component {
                     <div id="content-container">
                         <h1>Green Stats</h1>
 
-                        <Route exact path="/" render={ () => <MainScreen food={ food } deleteFood={ deleteFood } /> } />
+                        <Route exact path="/" render={ () => (
+                            <MainScreen
+                                food={ food }
+                                deleteFood={ deleteFood }
+                            />
+                        )} />
                         <Route exact path="/add" render={ () => (
                             <AddFood
                                 formName={ formName }
@@ -80,13 +83,13 @@ class App extends Component {
                                 submitNewFood={ submitNewFood }
                             />
                         )}/>
-                    <Route exact path="/edit/:foodId" render={p => {
-                        return (
+                        <Route exact path="/edit/:foodId" render={p => (
                             <SingleFood
                                 foodId={p.match.params.foodId}
                                 historyPush={p.history.push}
+                                handleChange={ handleChange }
                             />
-                    )}} />
+                        )} />
                     </div>
                 </div>
             </BrowserRouter>
