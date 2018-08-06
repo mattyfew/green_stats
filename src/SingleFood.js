@@ -6,31 +6,37 @@ Modal.setAppElement('main')
 class SingleFood extends Component {
     constructor(props) {
         super(props)
-        this.state = { singleFood: {} }
+        this.state = {
+            singleFood: {},
+            modalIsOpen: false
+        }
     }
 
     componentDidMount() {
-        console.log("need to check props", this.props);
         axios.get(`/food/${this.props.foodId}`)
             .then(resp => {
-                this.setState({ singleFood: resp.data })
+                console.log("need to check props", resp);
+
+                this.setState({
+                    singleFood: resp.data,
+                    modalIsOpen: true
+                })
             })
     }
 
     render() {
-        const { _id, name, imgUrl, nutrition } = this.state.singleFood
+        const { _id, name, imgUrl, nutrition,  } = this.state.singleFood
 
-        if (!_id) {
+        if (!this.state.modalIsOpen) {
             return <div>Loading</div>
         }
 
         return (
             <Modal
-                isOpen={true}
-                contentLabel="Example Modal"
+                isOpen={this.state.modalIsOpen}
                 onRequestClose={() => {
-                    console.log("here");
                     this.setState({ modalIsOpen: false });
+                    this.props.historyPush('/')
                 }}
             >
                 <div id="single-food">

@@ -84,6 +84,7 @@ class App extends Component {
                         return (
                             <SingleFood
                                 foodId={p.match.params.foodId}
+                                historyPush={p.history.push}
                             />
                     )}} />
                     </div>
