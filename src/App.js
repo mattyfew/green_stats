@@ -61,7 +61,7 @@ class App extends Component {
         const { food, formName, formImgUrl, modalIsOpen } = this.state
         const { handleChange, submitNewFood, deleteFood } = this
 
-        if (!food.length) { return (<h1>Loading...</h1>) }
+        // if (!food.length) { return (<h1>Loading...</h1>) }
 
         return (
             <BrowserRouter>

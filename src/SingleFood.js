@@ -10,6 +10,8 @@ class SingleFood extends Component {
             singleFood: {},
             modalIsOpen: false
         }
+
+        this.closeModal = this.closeModal.bind(this)
     }
 
     componentDidMount() {
@@ -24,6 +26,11 @@ class SingleFood extends Component {
             })
     }
 
+    closeModal() {
+        this.setState({ modalIsOpen: false })
+        this.props.historyPush('/')
+    }
+
     render() {
         const { _id, name, imgUrl, nutrition,  } = this.state.singleFood
 
@@ -34,12 +41,10 @@ class SingleFood extends Component {
         return (
             <Modal
                 isOpen={this.state.modalIsOpen}
-                onRequestClose={() => {
-                    this.setState({ modalIsOpen: false });
-                    this.props.historyPush('/')
-                }}
+                onRequestClose={ this.closeModal }
             >
                 <div id="single-food">
+                    <p className="x" onClick={ this.closeModal }>X</p>
                     <h2>{ name }</h2>
                     <img src={ imgUrl } />
                 </div>
