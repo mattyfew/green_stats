@@ -12,12 +12,16 @@ app.use(express.static('public'))
 mongoose.Promise = Promise
 mongoose.connect('mongodb://localhost:27017/green_stats')
     .then(() => console.log("Connected to Mongo"))
-    .catch(e => console.log("something went wrong with connection", e))
+    .catch(e => console.log("Something went wrong with connection", e))
 
 app.get('/food', (req, res) => {
     Food.find()
-        .then(foods => res.json(foods))
-        .catch(e => console.log("something went wrong with GET /food", e))
+    .populate('nutrition')
+    .then(foods => {
+        console.log(foods);
+        res.json(foods)
+    })
+    .catch(e => console.log("something went wrong with GET /food", e))
 })
 
 app.post('/new-food', (req, res) => {
@@ -28,7 +32,6 @@ app.post('/new-food', (req, res) => {
 
     f.save()
      .then(newFood => {
-         console.log('New food added', newFood)
          res.json(newFood)
      })
      .catch(e => console.log("something went wrong with POST /new-food", e))
@@ -44,25 +47,27 @@ app.post('/delete-food', (req, res) => {
 app.get('/food/:id', (req, res) => {
     Food.findById(req.params.id)
     .then(myFood => {
-        console.log("myFood", myFood)
         res.json(myFood)
     })
     .catch(e => console.log('There was an error with GET /food/:id', e))
-
 })
 
 app.post('/add-stat/:id', (req, res) => {
-    const s = new Stat({
-        name: req.body.newStatName,
-        amount: req.body.newStatAmount,
-        unit: req.body.newStatUnit,
-        referenceMongoID: req.params.id
-    })
+    Food.findById(req.params.id)
+    .then(myFood => {
+        const s = new Stat({
+            name: req.body.newStatName,
+            amount: req.body.newStatAmount,
+            unit: req.body.newStatUnit,
+            referenceMongoID: req.params.id
+        })
 
-    s.save()
-    .then(newStat => {
-        console.log("A new Stat was created", newStat)
-        res.json(newStat)
+        s.save()
+        .then(newStat => {
+            myFood.nutrition.push(newStat._id)
+            myFood.save()
+            .then(() => res.json(newStat))
+        })
     })
     .catch(e => console.log('There was an error with POST /add-stat', e))
 })

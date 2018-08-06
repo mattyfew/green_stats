@@ -7,15 +7,13 @@ import SingleFood from './SingleFood'
 import Nav from './Nav'
 
 class App extends Component {
-    constructor() {
-        super()
-
+    constructor(props) {
+        super(props)
         this.state = {
             food: [],
             formName: '',
             formImgUrl: ''
         }
-
         this.handleChange = this.handleChange.bind(this)
         this.submitNewFood = this.submitNewFood.bind(this)
         this.deleteFood = this.deleteFood.bind(this)
