@@ -45,21 +45,24 @@ class SingleFood extends Component {
 
     addStat(e) {
         e.preventDefault()
-        const { newStatName, newStatAmount, newStatUnit } = this.state
+        const { newStatName, newStatAmount, newStatUnit, singleFood } = this.state
 
         axios.post(`/add-stat/${this.props.foodId}`, { newStatName, newStatAmount, newStatUnit })
         .then(resp => {
-            console.log("so we are here now")
+            this.setState({ singleFood: {
+                    ...singleFood,
+                    nutrition: [ ...singleFood.nutrition, resp.data]
+                }
+            })
         })
     }
 
     renderStats() {
-
         return this.state.singleFood.nutrition.map(item => {
             console.log(item);
             return (
                 <div key={item._id}>
-                    <p>{ item.name }: { item.amount }{ item.name }</p>
+                    <p>{ item.name }: { item.amount }{ item.unit }</p>
                 </div>
             )
         })

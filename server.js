@@ -63,7 +63,6 @@ app.post('/add-stat/:id', (req, res) => {
             referenceMongoID: req.params.id
         })
 
-
         s.save()
         .then(newStat => {
             myFood.nutrition.push(newStat._id)
