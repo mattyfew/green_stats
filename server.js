@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-
 const Food = require('./models/Food')
 const Stat = require('./models/Stat')
 
@@ -18,7 +17,7 @@ app.get('/food', (req, res) => {
     Food.find()
     .populate('nutrition')
     .then(foods => {
-        console.log(foods);
+        console.log("nerere", foods[0].nutrition);
         res.json(foods)
     })
     .catch(e => console.log("something went wrong with GET /food", e))
@@ -46,6 +45,7 @@ app.post('/delete-food', (req, res) => {
 
 app.get('/food/:id', (req, res) => {
     Food.findById(req.params.id)
+    .populate('nutrition')
     .then(myFood => {
         res.json(myFood)
     })
@@ -55,12 +55,14 @@ app.get('/food/:id', (req, res) => {
 app.post('/add-stat/:id', (req, res) => {
     Food.findById(req.params.id)
     .then(myFood => {
+        console.log("my S", req.body);
         const s = new Stat({
             name: req.body.newStatName,
             amount: req.body.newStatAmount,
             unit: req.body.newStatUnit,
             referenceMongoID: req.params.id
         })
+
 
         s.save()
         .then(newStat => {

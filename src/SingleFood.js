@@ -7,7 +7,9 @@ class SingleFood extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            singleFood: {},
+            singleFood: {
+                nutrition: []
+            },
             modalIsOpen: false,
             showAddStat: false,
             newStatName: '',
@@ -17,6 +19,7 @@ class SingleFood extends Component {
         this.closeModal = this.closeModal.bind(this)
         this.addStat = this.addStat.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.renderStats = this.renderStats.bind(this)
     }
 
     componentDidMount() {
@@ -42,12 +45,23 @@ class SingleFood extends Component {
 
     addStat(e) {
         e.preventDefault()
+        const { newStatName, newStatAmount, newStatUnit } = this.state
 
-        const { newStatName, newStatAmount } = this.state
-
-        axios.post(`/add-stat/${this.props.foodId}`, { newStatName, newStatAmount })
+        axios.post(`/add-stat/${this.props.foodId}`, { newStatName, newStatAmount, newStatUnit })
         .then(resp => {
             console.log("so we are here now")
+        })
+    }
+
+    renderStats() {
+
+        return this.state.singleFood.nutrition.map(item => {
+            console.log(item);
+            return (
+                <div key={item._id}>
+                    <p>{ item.name }: { item.amount }{ item.name }</p>
+                </div>
+            )
         })
     }
 
@@ -77,6 +91,8 @@ class SingleFood extends Component {
                             <button>Submit</button>
                         </form>
                     )}
+
+                    { this.renderStats() }
                 </div>
             </Modal>
         )
