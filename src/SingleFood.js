@@ -58,18 +58,15 @@ class SingleFood extends Component {
     }
 
     renderStats() {
-        return this.state.singleFood.nutrition.map(item => {
-            console.log(item);
-            return (
-                <div key={item._id}>
-                    <p>{ item.name }: { item.amount }{ item.unit }</p>
-                </div>
-            )
-        })
+        return this.state.singleFood.nutrition.map(item => (
+            <div key={item._id}>
+                <p>{ item.name }: { item.amount }{ item.unit }</p>
+            </div>
+        ))
     }
 
     render() {
-        const { _id, name, imgUrl, nutrition  } = this.state.singleFood
+        const { _id, name, emoji, nutrition  } = this.state.singleFood
         const { showAddStat, modalIsOpen } = this.state
 
         if (!modalIsOpen) { return (<div>Loading</div>) }
@@ -82,7 +79,7 @@ class SingleFood extends Component {
                 <div id="single-food">
                     <p className="x" onClick={ this.closeModal }>X</p>
                     <h2>{ name }</h2>
-                    <p className="emoji">{ imgUrl }</p>
+                    <p className="emoji">{ emoji }</p>
                     <button onClick={() => this.setState({ showAddStat: !showAddStat })}>Add Stat</button>
 
                     { showAddStat && (

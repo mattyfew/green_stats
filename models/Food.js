@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const foodSchema = new Schema({
     name: { type: String },
-    imgUrl: { type: String },
+    emoji: { type: String },
     nutrition: [{
         type: Schema.Types.ObjectId,
         ref: 'Stat'

@@ -9,38 +9,26 @@ import Nav from './Nav'
 class App extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            food: [],
-            formName: '',
-            formImgUrl: ''
-        }
+        this.state = { food: [] }
         this.handleChange = this.handleChange.bind(this)
-        this.submitNewFood = this.submitNewFood.bind(this)
         this.deleteFood = this.deleteFood.bind(this)
+        this.addFoodToState = this.addFoodToState.bind(this)
     }
 
     componentDidMount() {
         axios.get('/food')
-            .then(resp => this.setState({ food: resp.data }))
+        .then(resp => this.setState({ food: resp.data }))
     }
 
     handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+        this.setState({ [e.target.name]: e.target.value })
     }
 
-    submitNewFood(e) {
-        e.preventDefault()
-
-        axios.post('/new-food', {
-            name: this.state.formName,
-            imgUrl: this.state.formImgUrl
-        })
-        .then(resp => {
-            this.setState({
-                food: [ ...this.state.food ].push(resp.data)
-            }, () => location.replace('/'))
+    addFoodToState(newFood) {
+        return new Promise((resolve, reject) => {
+            const food = [ ...this.state.food ]
+            food.push(newFood)
+            this.setState({ food }, () => resolve())
         })
     }
 
@@ -56,8 +44,8 @@ class App extends Component {
     }
 
     render() {
-        const { food, formName, formImgUrl, modalIsOpen } = this.state
-        const { handleChange, submitNewFood, deleteFood } = this
+        const { food, modalIsOpen } = this.state
+        const { handleChange, deleteFood } = this
 
         return (
             <BrowserRouter>
@@ -65,20 +53,16 @@ class App extends Component {
                     <Nav />
 
                     <div id="content-container">
-                        <h1>Green Stats</h1>
-
                         <Route exact path="/" render={ () => (
                             <MainScreen
                                 food={ food }
                                 deleteFood={ deleteFood }
                             />
                         )} />
-                        <Route exact path="/add" render={ () => (
+                    <Route exact path="/add" render={p => (
                             <AddFood
-                                formName={ formName }
-                                formImgUrl={ formImgUrl }
-                                handleChange={ handleChange }
-                                submitNewFood={ submitNewFood }
+                                historyPush={p.history.push}
+                                addFoodToState={ this.addFoodToState}
                             />
                         )}/>
                         <Route exact path="/edit/:foodId" render={p => (

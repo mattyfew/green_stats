@@ -17,7 +17,6 @@ app.get('/food', (req, res) => {
     Food.find()
     .populate('nutrition')
     .then(foods => {
-        console.log("nerere", foods[0].nutrition);
         res.json(foods)
     })
     .catch(e => console.log("something went wrong with GET /food", e))
@@ -26,7 +25,7 @@ app.get('/food', (req, res) => {
 app.post('/new-food', (req, res) => {
     const f = new Food({
         name: req.body.name,
-        imgUrl: req.body.imgUrl
+        emoji: req.body.emoji
     })
 
     f.save()
