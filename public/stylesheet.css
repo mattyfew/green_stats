@@ -9,7 +9,7 @@ body {
 
 #main-food-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .single-food-container {
@@ -29,6 +29,13 @@ body {
     float: right;
     margin: 0;
     cursor: pointer;
+}
+
+.delete {
+    background-color: #e74c3c;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 3px;
 }
 
 .nav-link {
@@ -51,4 +58,14 @@ nav a {
 
 .emoji-link {
     text-decoration: none;
+}
+
+.bar-stat {
+    border: 1px solid lightgrey;
+    padding: 2px;
+}
+.bar-stat-total {
+    width: 20%;
+    background-color: blue;
+    height: 20px;
 }

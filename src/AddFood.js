@@ -21,11 +21,8 @@ class AddFood extends Component {
         const { name, emoji } = this.state
 
         axios.post('/new-food', { name, emoji })
-        .then(resp => {
-            console.log("doin it", resp);
-            this.props.addFoodToState(resp.data)
-            .then(() => this.props.historyPush('/'))
-        })
+        .then(resp => this.props.addFoodToState(resp.data))
+        .then(() => this.props.historyPush('/'))
     }
 
     render() {

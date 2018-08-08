@@ -32,6 +32,10 @@ class App extends Component {
         })
     }
 
+    confirmDelete() {
+
+    }
+
     deleteFood(id) {
         axios.post('/delete-food', { id })
         .then(resp => {
@@ -59,7 +63,7 @@ class App extends Component {
                                 deleteFood={ deleteFood }
                             />
                         )} />
-                    <Route exact path="/add" render={p => (
+                        <Route exact path="/add" render={p => (
                             <AddFood
                                 historyPush={p.history.push}
                                 addFoodToState={ this.addFoodToState}
@@ -69,7 +73,6 @@ class App extends Component {
                             <SingleFood
                                 foodId={p.match.params.foodId}
                                 historyPush={p.history.push}
-                                handleChange={ handleChange }
                             />
                         )} />
                     </div>

@@ -3,6 +3,9 @@ import axios from 'axios'
 import Modal from 'react-modal'
 Modal.setAppElement('main')
 
+import rda from '../public/rda'
+console.log(rda);
+
 class SingleFood extends Component {
     constructor(props) {
         super(props)
@@ -58,11 +61,25 @@ class SingleFood extends Component {
     }
 
     renderStats() {
-        return this.state.singleFood.nutrition.map(item => (
-            <div key={item._id}>
-                <p>{ item.name }: { item.amount }{ item.unit }</p>
-            </div>
-        ))
+        return this.state.singleFood.nutrition.map(item => {
+            const index = rda.find(x => x.name === item.name)
+            console.log(index);
+
+            return (
+                <div key={item._id}>
+                    <p>{ item.name }: { item.amount }{ item.unit }</p>
+
+                    <div className="bar-stat">
+                        <div className="bar-stat-total" style={{ width: `${this.calculateDailyValue(item.amount, index.rda)}%` }}></div>
+                    </div>
+
+                </div>
+            )
+        })
+    }
+
+    calculateDailyValue(amount, rda) {
+        return amount * 100 / rda
     }
 
     render() {
