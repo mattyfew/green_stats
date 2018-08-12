@@ -69,3 +69,9 @@ nav a {
     background-color: blue;
     height: 20px;
 }
+
+.add-stat input {
+    display: block;
+    margin-bottom: 8px;
+    padding: 12px;
+}

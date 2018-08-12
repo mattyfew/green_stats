@@ -62,15 +62,12 @@ class SingleFood extends Component {
 
     renderStats() {
         return this.state.singleFood.nutrition.map(item => {
-            const index = rda.find(x => x.name === item.name)
-            console.log(index);
-
             return (
                 <div key={item._id}>
                     <p>{ item.name }: { item.amount }{ item.unit }</p>
 
                     <div className="bar-stat">
-                        <div className="bar-stat-total" style={{ width: `${this.calculateDailyValue(item.amount, index.rda)}%` }}></div>
+                        <div className="bar-stat-total" style={{ width: `${this.calculateDailyValue(item)}%` }}></div>
                     </div>
 
                 </div>
@@ -78,8 +75,11 @@ class SingleFood extends Component {
         })
     }
 
-    calculateDailyValue(amount, rda) {
-        return amount * 100 / rda
+    calculateDailyValue(item) {
+        const rdaInfo = rda.find(x => x.name === item.name)
+        console.log(rdaInfo);
+
+        return item.amount * 100 / rdaInfo.rda
     }
 
     render() {
@@ -100,7 +100,7 @@ class SingleFood extends Component {
                     <button onClick={() => this.setState({ showAddStat: !showAddStat })}>Add Stat</button>
 
                     { showAddStat && (
-                        <form onSubmit={ this.addStat }>
+                        <form className="add-stat" onSubmit={ this.addStat }>
                             <h3>Add Stat</h3>
                             <input onChange={ this.handleChange } type="text" name="newStatName" placeholder="name"/>
                             <input onChange={ this.handleChange } type="text" name="newStatAmount" placeholder="amount"/>
